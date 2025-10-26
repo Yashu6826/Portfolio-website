@@ -1,6 +1,4 @@
-import axios, { AxiosError } from "axios";
 import React, { useRef, useState } from "react";
-import { emailVerificationKey, formSubmissionKey } from "../../config/apiKeys";
 import { IoSend } from "react-icons/io5";
 import { useSpring, a } from "@react-spring/web";
 import { ThreeDots } from "react-loader-spinner";
@@ -18,24 +16,15 @@ const ContactForm = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const [nameError, setNameError] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [messageError, setMessageError] = useState<boolean>(false);
-
-  const [isSending, setIsSending] = useState(false);
-  const [sendStatus, setSendStatus] = useState<string | null>(null);
-
-  const [errorTimeoutID, setErrorTimeoutID] = useState<
-    NodeJS.Timeout | undefined
-  >(undefined);
-  const [error, setError] = useState<string | null>(null);
-
-  const [successTimeoutID, setSuccessTimeoutID] = useState<
-    NodeJS.Timeout | undefined
-  >(undefined);
-  const [success, setSuccess] = useState<boolean>(false);
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [messageError, setMessageError] = useState(false);
 
   const [processing, setProcessing] = useState(false);
+  const [feedback, setFeedback] = useState<string | null>(null);
+  const [feedbackType, setFeedbackType] = useState<"error" | "success" | null>(
+    null
+  );
 
   const clearErrors = () => {
     setNameError(false);
@@ -43,227 +32,117 @@ const ContactForm = () => {
     setMessageError(false);
   };
 
-    function handleSubmit(e: React.FormEvent) {
+  const raiseFeedback = (msg: string, type: "error" | "success") => {
+    setFeedback(msg);
+    setFeedbackType(type);
+    setTimeout(() => {
+      setFeedback(null);
+      setFeedbackType(null);
+    }, 3000);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-   
-
-  
-      setIsSending(true);
-      setSendStatus(null);
-
-      // EmailJS configuration
-      const serviceID = "service_z2xrwno"; // Replace with your EmailJS Service ID
-      const templateID = "template_889pq44"; // Replace with your EmailJS Template ID
-      const publicKey = "WgwgRWATV947VvpY0"; // Replace with your EmailJS Public Key
-
-      emailjs
-        .send(serviceID, templateID, {
-          from_name: name,
-          from_email: email,
-          subject:"Portfolio contact",
-          message: message,
-        }, publicKey)
-        .then(() => {
-          setTimeout(() => {
-          setSendStatus("Message sent successfully!");
-          }, 3000);
-         setName("");
-          setEmail(""); 
-          setMessage("");
-        })
-        .catch((error:any) => {
-          setSendStatus("Failed to send message. Please try again.");
-          console.error("EmailJS error:", error);
-        })
-        .finally(() => {
-          setIsSending(false);
-        });
-    
-  }
-
-  const raiseError = async (error: string | null) => {
-    // Disable all previous errors
-    clearErrors();
-    setProcessing(false);
-    if (typeof errorTimeoutID === "number") {
-      clearTimeout(errorTimeoutID);
-    }
-
-    if (error === null) return;
-
-    setSuccess(false);
-    setError(error);
-    const timeOutID = setTimeout(() => {
-      setError(null);
-    }, 3000);
-    setErrorTimeoutID(timeOutID);
-  };
-
-  const raiseSuccess = async () => {
-    setSuccess(true);
-    setName("");
-    setEmail("");
-    setMessage("");
-
-    clearTimeout(successTimeoutID);
-    const timeoutID = setTimeout(() => {
-      setSuccess(false);
-    }, 3000);
-    setSuccessTimeoutID(timeoutID);
-    raiseError(null);
-  };
-
-  const verifyEmail = async (email: string) => {
-    const encodedParams = new URLSearchParams();
-    encodedParams.set("email", email);
-
-    const options = {
-      method: "POST",
-      url: "https://email-validator8.p.rapidapi.com/api/v2.0/email",
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-        "X-RapidAPI-Key": emailVerificationKey,
-        "X-RapidAPI-Host": "email-validator8.p.rapidapi.com",
-      },
-      data: encodedParams,
-    };
-
-    try {
-      const { data } = await axios.request(options);
-      return data;
-    } catch (error: any) {
-      if (error.response) {
-        raiseError("Internal Server Error");
-      } else {
-        if (error.message === "Network Error")
-          raiseError("Check your connection and try again");
-        else raiseError("Sorry... Something went wrong");
-      }
-      return;
-    }
-  };
-
-  const submitData = async (formData: any) => {
-    axios.post(`https://getform.io/f/${formSubmissionKey}`, formData, {
-      headers: { Accept: "application/json" },
-    });
-  };
-
-  const handleSubmission = async (submitEvent: any) => {
-    submitEvent.preventDefault();
     setProcessing(true);
+    clearErrors();
 
+    // Basic field validations
     if (isEmptyString(name)) {
-      raiseError("Name cannot be blank");
       setNameError(true);
+      raiseFeedback("Name cannot be blank", "error");
+      setProcessing(false);
       return;
     }
 
     if (isEmptyString(email)) {
-      raiseError("Email cannot be blank");
       setEmailError(true);
+      raiseFeedback("Email cannot be blank", "error");
+      setProcessing(false);
       return;
     }
 
-    // Manual verification
     if (!isValidEmail(email)) {
-      raiseError("Please enter a valid email address");
       setEmailError(true);
+      raiseFeedback("Please enter a valid email address", "error");
+      setProcessing(false);
       return;
     }
 
     if (isEmptyString(message)) {
-      raiseError("Message cannot be blank");
       setMessageError(true);
+      raiseFeedback("Message cannot be blank", "error");
+      setProcessing(false);
       return;
     }
 
     if (isTooShort(message, 10)) {
-      raiseError("The message is too short");
       setMessageError(true);
+      raiseFeedback("The message is too short", "error");
+      setProcessing(false);
       return;
     }
 
-    // Verify email using email-auth provider
-    const emailVerification = await verifyEmail(email);
-    if (emailVerification === null) return;
-    if (
-      emailVerification.mx_records === false ||
-      emailVerification.valid === false
-    ) {
-      raiseError("The email you entered doesn't exist");
-      setEmailError(true);
-      return;
+    // Send via EmailJS
+    const serviceID = "service_z2xrwno";
+    const templateID = "template_889pq44";
+    const publicKey = "WgwgRWATV947VvpY0";
+
+    try {
+      await emailjs.send(
+        serviceID,
+        templateID,
+        {
+          from_name: name,
+          from_email: email,
+          subject: "Portfolio contact",
+          message: message,
+        },
+        publicKey
+      );
+
+      raiseFeedback("✅ Message sent successfully!", "success");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      raiseFeedback("❌ Failed to send message. Please try again.", "error");
+    } finally {
+      setProcessing(false);
     }
-
-    raiseSuccess();
-
-    submitData({ name, email, message });
   };
 
-  const errorSprings = useSpring({
-    y: error ? -40 : 0,
-    opacity: error ? 0.9 : 0,
-    config: {
-      friction: 20,
-      tension: 200,
-    },
-  });
-
-  const successSprings = useSpring({
-    y: success ? -40 : 0,
-    opacity: success ? 1 : 0,
-    config: {
-      friction: 20,
-      tension: 200,
-    },
+  // Animations
+  const feedbackSprings = useSpring({
+    y: feedback ? -40 : 0,
+    opacity: feedback ? 1 : 0,
+    config: { friction: 20, tension: 200 },
   });
 
   const [spring, api] = useSpring(() => ({
-    from: {
-      y: 50,
-      opacity: 0,
-    },
-    config: {
-      tension: 200,
-      friction: 50,
-    },
+    from: { y: 50, opacity: 0 },
+    config: { tension: 200, friction: 50 },
   }));
 
   useIntersectionObserver(formRef, () => {
-    api.start({
-      y: 0,
-      opacity: 1,
-    });
+    api.start({ y: 0, opacity: 1 });
   });
 
   return (
     <a.div className="contactForm__container" ref={formRef} style={spring}>
-      <form className="contactForm" action="" onSubmit={handleSubmit}>
-        <a.div
-          className="error"
-          style={{
-            zIndex: "-1",
-            top: "0",
-            transform: "translateX(-50%)",
-            ...errorSprings,
-          }}
-        >
-          {error}
-        </a.div>
-
-        <a.div
-          className="success"
-          style={{
-            zIndex: "-1",
-            top: "0",
-            transform: "translateX(-50%)",
-            ...successSprings,
-          }}
-        >
-          {success ? "Message sent successfully" : ""}
-        </a.div>
+      <form className="contactForm" onSubmit={handleSubmit}>
+        {feedback && (
+          <a.div
+            className={`feedback ${feedbackType}`}
+            style={{
+              top: "0",
+              transform: "translateX(-50%)",
+              ...feedbackSprings,
+            }}
+          >
+            {feedback}
+          </a.div>
+        )}
 
         <div>
           <label htmlFor="contactForm__name">
@@ -278,9 +157,7 @@ const ContactForm = () => {
             className={`contactForm__name ${nameError ? "invalid" : ""}`}
             value={name}
             placeholder="Full Name"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
 
@@ -297,9 +174,7 @@ const ContactForm = () => {
             className={`contactForm__email ${emailError ? "invalid" : ""}`}
             value={email}
             placeholder="Email address"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
@@ -316,25 +191,27 @@ const ContactForm = () => {
             rows={5}
             value={message}
             placeholder="Type your message here..."
-            onChange={(e) => {
-              setMessage(e.target.value);
-            }}
+            onChange={(e) => setMessage(e.target.value)}
           />
         </div>
+
         <button type="submit" disabled={processing}>
-          Send
           {processing ? (
-            <ThreeDots
-              height="15"
-              width="20"
-              radius="9"
-              color="var(--loading)"
-              ariaLabel="three-dots-loading"
-              wrapperStyle={{}}
-              visible={true}
-            />
+            <>
+              Sending
+              <ThreeDots
+                height="15"
+                width="20"
+                radius="9"
+                color="var(--loading)"
+                ariaLabel="three-dots-loading"
+                visible={true}
+              />
+            </>
           ) : (
-            <IoSend />
+            <>
+              Send <IoSend />
+            </>
           )}
         </button>
       </form>
