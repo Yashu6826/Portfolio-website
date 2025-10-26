@@ -14,7 +14,7 @@ const Navigation = () => {
   const [sticky, setSticky] = useState<boolean>(false);
   const headerRef = useRef(null);
 
-  const [isDarkMode, setDarkMode] = useState<boolean>(false);
+  const [isDarkMode, setDarkMode] = useState<boolean>(true);
   const currentSection = useSelector(
     (store: storeType) => store.currentSection
   );

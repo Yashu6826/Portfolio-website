@@ -9,7 +9,7 @@ import Logo from "./Logo";
 import {onButtonClick} from "../../db/resume";
 
 const MobileNavigation = () => {
-  const [isDarkMode, setDarkMode] = useState<boolean>(false);
+  const [isDarkMode, setDarkMode] = useState<boolean>(true);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [sticky, setSticky] = useState<boolean>(false);
   const headerRef = useRef(null);
