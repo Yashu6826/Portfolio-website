@@ -1,0 +1,130 @@
+.carousel-container {
+  --card-height: 200px; /* adjust this value as needed */
+  height: var(--card-height);
+  overflow: hidden;
+  position: relative;
+  max-width: calc(1000px + 5rem);
+  margin-inline: auto;
+  /* keep any left padding if you want an offset; set to 0 to align flush */
+  padding-left: 0;
+  box-sizing: border-box;
+}
+
+/* Each carousel item/card */
+.carousel-image {
+  flex: 0 0 auto;
+  width: 200px; /* card width - change or make responsive as needed */
+  height: var(--card-height); /* consistent with container */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* ensure images don't overflow the card */
+  padding: 0.25rem;
+}
+
+.carousel-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* Use contain so the whole image is visible inside the card.
+     If you'd rather fill and crop, switch to object-fit: cover */
+  object-fit: contain;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* --- Marquee styles (custom continuous slider) --- */
+.skills-marquee {
+  --card-height: 160px; /* visible height of each item */
+  --marquee-duration: 28s; /* tune speed: lower = faster */
+  /* match site layout conventions */
+  max-width: calc(1000px + 5rem);
+  padding-block: 1rem;
+  margin-inline: auto;
+  padding-left: 0rem;
+  box-sizing: border-box;
+}
+
+.marquee {
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee__track {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  /* duplicate items are rendered in the DOM, so animating -50% makes a seamless loop */
+  animation: scroll var(--marquee-duration) linear infinite;
+  width: max-content;
+}
+
+.marquee__item {
+  flex: 0 0 auto;
+  width: clamp(120px, 12vw, 200px);
+  height: var(--card-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: transparent;
+  padding: 0.25rem;
+  box-sizing: border-box;
+}
+
+.marquee__item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* show whole image; change to cover to fill and crop */
+}
+
+/* pause on hover or focus for accessibility */
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track {
+  animation-play-state: paused;
+}
+
+/* respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+  }
+}
+
+/* responsive: increase height on larger screens */
+@media (min-width: 1024px) {
+  .skills-marquee {
+    --card-height: 200px;
+    --marquee-duration: 36s;
+  }
+  .marquee__item {
+    width: clamp(140px, 10vw, 220px);
+  }
+}
+
+/* Dark mode overrides */
+.dark .skills-marquee {
+  --card-height: 200px;
+}
+
+.dark .marquee {
+  background: transparent;
+}
+
+.dark .marquee__item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.dark .marquee__item img {
+  filter: none; /* keep original colors; change if you want muted icons */
+}
