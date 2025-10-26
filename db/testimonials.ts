@@ -26,7 +26,7 @@ const testimonials = [
     author: 'Elizabeth Ojesanmi',
     image: 'Elizabeth.jpeg',
     text: [
-      "When I think about Charles, the words “hardworking and innovative” spring to mind. Okoye Charles is someone I've had the pleasure of knowing, and we get along great.",
+      "When I think about Charles, the words “hardworking and innovative” spring to mind. Yashraj is someone I've had the pleasure of knowing, and we get along great.",
       "Charles is a great guy for any position needing a full-stack developer and has my highest recommendation."
     ],
     location: 'Lagos, Nigeria',
@@ -36,7 +36,7 @@ const testimonials = [
     image: 'Ishpaul.png',
     text: [
       "Charles is very knowledgeable when it comes to working with software tools and technologies, and he is also a very fast learner. I really enjoyed our pair-programming sessions together, as he was a helpful and understanding team member.",
-      "I would recommend Okoye Charles for immediate full-stack jobs as he can also handle pressure well."
+      "I would recommend Yashraj for immediate full-stack jobs as he can also handle pressure well."
     ],
     location: 'New Delhi, India',
   },
@@ -62,7 +62,7 @@ const testimonials = [
     author: 'Tracey Kadenyi',
     image: 'Tracey.jpeg',
     text: [
-      "There are so many good things I can say about working with Okoye Charles. A high note for me was how impressive his technical skills are. He has expert knowledge in JavaScript, React.js, and Rails.",
+      "There are so many good things I can say about working with Yashraj. A high note for me was how impressive his technical skills are. He has expert knowledge in JavaScript, React.js, and Rails.",
       "He is always willing to help a teammate facing a code blocker without being condescending about it. Such generosity with knowledge and skill is what makes him easy and fun to work with. Trust me, you'd be lucky to have him on your team."
     ],
     location: 'Nairobi County, Kenya',

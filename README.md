@@ -3,18 +3,15 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://okoyecharles-v2.vercel.app">
-    <img src="public/apple-icons/icon-256x256.png" alt="portfolio-logo" height="100">
+  <a href="https://portfolio-website-yc1r.vercel.app/">
+    <img src="public/apple-icons/icon.png" alt="portfolio-logo" height="100">
   </a>
 
 
   <h5 align="center">  
     <br />
-    <a href="https://okoyecharles-v2.vercel.app" target="_blank">View Live</a>
-    ·
-    <a href="https://github.com/OkoyeCharles/portfolio-v2/issues/new" target="_blank">Report Bug</a>
-    ·
-    <a href="https://github.com/OkoyeCharles/portfolio-v2/issues/new" target="_blank">Request Feature</a>
+    <a href="https://portfolio-website-yc1r.vercel.app" target="_blank">View Live</a>
+   
   </h5>
 </div>
 
@@ -48,16 +45,16 @@
 
 ### My Portfolio
 
-This website serves as a collection of my most recent, expertly crafted, and innovative projects as well as a base of knowlegde concerning the abouts of the creator... **Okoye Charles**.
+This website serves as a collection of my most recent, expertly crafted, and innovative projects as well as a base of knowlegde concerning the abouts of the creator... **Yashraj Gupta**.
 
 <div align="center">
-  <img  width="1000" alt="portfolio" src="./public/assets/app-screenshot.webp">
+  <img  width="1000" alt="portfolio" src="./public/assets/app.jpg">
 </div>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Live link
-Here is the [live link](https://okoyecharles-v2.vercel.app) of my portfolio.
+Here is the [live link](https://portfolio-website-yc1r.vercel.app) of my portfolio.
 
 ### Built With
 
@@ -76,7 +73,7 @@ Here is the [live link](https://okoyecharles-v2.vercel.app) of my portfolio.
 
 ### Clone-Locally
 
-- Enter this url: [https://github.com/okoyecharles/portfolio-v2](https://github.com/OkoyeCharles/portfolio-v2) in your web browser.
+- Enter this url: [https://github.com/Yashu6826/Portfolio-website](https://github.com/Yashu6826/Portfolio-website) in your web browser.
 - Once opened navigate to the top left level of the project a green code download button will be visible on the righthand side.
 - Select download Zip option from drop down menu.
 - Once the download is complete you will be able to access my project locally.
@@ -143,23 +140,19 @@ Distributed under the [MIT](./LICENSE) License.
 
 ## Contact
 
-### Okoye Charles
+### Yashraj Gupta
 
  <div align="center">
- <a href="https://www.linkedin.com/in/charles-k-okoye/"><img src="https://img.shields.io/badge/linkedin-%230070f3.svg?style=for-the-badge&logo=linkedin&logoColor=white" alt="Linkedin"></a> 
- <a href="https://twitter.com/okoyecharles_"><img src="https://img.shields.io/badge/Twitter-%230070f3.svg?style=for-the-badge&logo=Twitter&logoColor=white" alt="Twitter"></a> 
- <a href="https://github.com/OkoyeCharles/"><img src="https://img.shields.io/badge/github-%230070f3.svg?style=for-the-badge&logo=github&logoColor=white" alt="Github"></a> 
- <a href="https://angel.co/u/charles-k-okoye"><img src="https://img.shields.io/badge/AngelList-%230070f3.svg?style=for-the-badge&logo=AngelList&logoColor=white" alt="AngelList"></a> 
- <a href="mailto:okoyecharles509@gmail.com"><img src="https://img.shields.io/badge/Gmail-0070f3?style=for-the-badge&logo=gmail&logoColor=white" alt="Linkedin"></a>
+ <a href="https://www.linkedin.com/in/yashraj-gupta-803282251/"><img src="https://img.shields.io/badge/linkedin-%230070f3.svg?style=for-the-badge&logo=linkedin&logoColor=white" alt="Linkedin"></a> 
+ 
+ <a href="https://github.com/Yashu6826"><img src="https://img.shields.io/badge/github-%230070f3.svg?style=for-the-badge&logo=github&logoColor=white" alt="Github"></a> 
+ <a href="mailto:yashrajgupta6826@gmail.com"><img src="https://img.shields.io/badge/Gmail-0070f3?style=for-the-badge&logo=gmail&logoColor=white" alt="Linkedin"></a>
  </div>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
 
-## Acknowledgments
-- [Vercel Hosting](https://vercel.com/)
-- [Img Shields](https://shields.io)
-- [React Icons](https://react-icons.github.io/react-icons/search)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
